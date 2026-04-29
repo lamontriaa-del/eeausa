@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EEA USA — Transmission Incoming</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=Oswald:wght@400;600;700&family=Space+Mono:wght@400;700&family=Orbitron:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --ink:#04080f; --navy:#0a1628; --gold:#c9a84c; --gold-g:#f0d080;
+      --cream:#f5f0e8; --crimson:#c0392b; --red:#8b1a1a; --white:#fff;
+      --green:#4caf50; --amber:#d4820a;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{height:100%;overflow:hidden;}
+    body{
+      background:var(--ink); color:var(--cream);
+      font-family:'Space Mono',monospace;
+      display:flex; flex-direction:column;
+      min-height:100vh; position:relative;
+    }
+
+    /* ═══════════════════════════
+       CINEMATIC BACKGROUND
+    ═══════════════════════════ */
+    .bg{position:fixed;inset:0;z-index:0;}
+    .scene{position:absolute;inset:0;opacity:0;animation:sc 56s ease-in-out infinite;overflow:hidden;}
+    .s1{animation-delay:0s;   background:radial-gradient(ellipse at 25% 50%,rgba(139,26,26,0.45) 0%,transparent 55%),#06030a;}
+    .s2{animation-delay:8s;   background:linear-gradient(180deg,#040810 0%,#0a1628 55%,#0a1a0a 100%);}
+    .s3{animation-delay:16s;  background:#05040a;filter:sepia(0.4) contrast(1.1);}
+    .s4{animation-delay:24s;  background:linear-gradient(135deg,#091409,#0a1628);}
+    .s5{animation-delay:32s;  background:radial-gradient(ellipse at 50% 95%,rgba(212,130,10,0.28) 0%,transparent 50%),#050505;}
+    .s6{animation-delay:40s;  background:#050308;filter:sepia(0.25);}
+    .s7{animation-delay:48s;  background:radial-gradient(ellipse at 30% 50%,rgba(201,168,76,0.16) 0%,transparent 45%),radial-gradient(ellipse at 70% 50%,rgba(139,26,26,0.16) 0%,transparent 45%),var(--ink);}
+    @keyframes sc{0%{opacity:0;}4%{opacity:1;}12%{opacity:1;}16%{opacity:0;}100%{opacity:0;}}
+
+    .sb{position:absolute;inset:0;animation:kB 8s ease-in-out;}
+    .sbR{position:absolute;inset:0;animation:kBR 8s ease-in-out;}
+    @keyframes kB{0%{transform:scale(1);}100%{transform:scale(1.07) translate(-1.5%,-1%);}}
+    @keyframes kBR{0%{transform:scale(1.07) translate(-1.5%,-1%);}100%{transform:scale(1);}}
+
+    /* Flag stripes on s1 */
+    .s1::before{content:'';position:absolute;inset:0;
+      background:repeating-linear-gradient(0deg,rgba(139,26,26,0.1) 0,rgba(139,26,26,0.1) 36px,rgba(255,255,255,0.025) 36px,rgba(255,255,255,0.025) 72px);
+      animation:fw 4s ease-in-out infinite;}
+    @keyframes fw{0%,100%{transform:skewX(0);}50%{transform:skewX(0.7deg);}}
+
+    /* White House */
+    .wh{position:absolute;bottom:20%;left:50%;transform:translateX(-50%);opacity:0.1;}
+    .wh-b{width:260px;height:90px;background:var(--cream);margin:0 auto;position:relative;}
+    .wh-b::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+      display:flex;} 
+    .wh-wl{width:140px;height:60px;background:var(--cream);float:left;}
+    .wh-wr{width:140px;height:60px;background:var(--cream);float:right;}
+    .wh-d{width:60px;height:46px;background:var(--cream);border-radius:50% 50% 0 0;margin:0 auto;transform:translateY(-46px);}
+    .wh-cols{display:flex;gap:12px;justify-content:center;padding-top:12px;}
+    .wh-col{width:5px;height:50px;background:rgba(255,255,255,0.2);}
+
+    /* City skyline */
+    .sky{position:absolute;bottom:0;left:0;right:0;height:160px;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:0 8%;opacity:0.12;}
+    .bld{background:var(--cream);border-radius:1px 1px 0 0;flex-shrink:0;}
+
+    /* March */
+    .mch{position:absolute;bottom:20%;left:50%;transform:translateX(-50%);display:flex;gap:14px;opacity:0.12;}
+    .pp{display:flex;flex-direction:column;align-items:center;}
+    .ph{width:12px;height:12px;border-radius:50%;background:var(--cream);}
+    .pb{width:8px;height:24px;background:var(--cream);border-radius:2px;}
+
+    /* Kids */
+    .kds{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);display:flex;gap:11px;align-items:flex-end;}
+    .kd{display:flex;flex-direction:column;align-items:center;opacity:0.12;}
+    .kh{border-radius:50%;background:var(--gold);}
+    .kb{background:var(--gold);border-radius:2px;margin-top:1px;}
+
+    /* Fists */
+    .fts{position:absolute;bottom:22%;left:50%;transform:translateX(-50%);display:flex;gap:22px;opacity:0.12;}
+    .ft{font-size:2.2rem;animation:rf 2.5s ease-in-out infinite;}
+    .ft:nth-child(2){animation-delay:0.3s;} .ft:nth-child(3){animation-delay:0.6s;} .ft:nth-child(4){animation-delay:0.9s;}
+    @keyframes rf{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+
+    /* Lab grid on s7 */
+    .s7::before{content:'';position:absolute;inset:0;
+      background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(201,168,76,0.06) 40px),
+        repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(201,168,76,0.06) 40px);}
+
+    /* ═══════════════════════════
+       OVERLAYS
+    ═══════════════════════════ */
+    .ov-dark{position:fixed;inset:0;background:linear-gradient(180deg,rgba(4,8,15,0.5) 0%,rgba(4,8,15,0.18) 45%,rgba(4,8,15,0.6) 100%);z-index:1;pointer-events:none;}
+    .ov-grain{position:fixed;inset:0;opacity:0.28;z-index:2;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");}
+    .ov-scan{position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);z-index:2;pointer-events:none;}
+    .ov-vig{position:fixed;inset:0;background:radial-gradient(ellipse at center,transparent 28%,rgba(0,0,0,0.94) 100%);z-index:3;pointer-events:none;}
+
+    /* Corner brackets */
+    .cor{position:fixed;width:28px;height:28px;border-style:solid;border-color:rgba(201,168,76,0.28);z-index:10;}
+    .c-tl{top:68px;left:18px;border-width:2px 0 0 2px;}
+    .c-tr{top:68px;right:18px;border-width:2px 2px 0 0;}
+    .c-bl{bottom:26px;left:18px;border-width:0 0 2px 2px;}
+    .c-br{bottom:26px;right:18px;border-width:0 2px 2px 0;}
+
+    /* Lab measurement marks */
+    .lab-marks{position:fixed;z-index:5;pointer-events:none;}
+    .lab-left{left:18px;top:50%;transform:translateY(-50%);}
+    .lab-right{right:18px;top:50%;transform:translateY(-50%);}
+    .lm-inner{display:flex;flex-direction:column;gap:8px;align-items:center;}
+    .lm-tick{width:12px;height:1px;background:rgba(201,168,76,0.2);}
+    .lm-tick.long{width:18px;background:rgba(201,168,76,0.35);}
+    .lm-num{font-family:'Orbitron',monospace;font-size:5px;color:var(--gold);opacity:0.3;letter-spacing:1px;}
+
+    /* ═══════════════════════════
+       TOP TICKER (RED)
+    ═══════════════════════════ */
+    .ticker-red{
+      position:fixed;top:0;left:0;right:0;
+      background:var(--crimson);padding:5px 0;
+      font-family:'Orbitron',monospace;font-size:0.56rem;
+      letter-spacing:0.38em;text-transform:uppercase;color:var(--cream);
+      z-index:20;overflow:hidden;
+    }
+    .tr-in{display:inline-flex;animation:tk 30s linear infinite;white-space:nowrap;gap:4rem;}
+    .tr-in span{display:inline-block;}
+    .tbd{color:var(--gold-g);margin:0 0.4rem;}
+    @keyframes tk{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+    /* ═══════════════════════════
+       FILM STRIP (BELOW RED TICKER)
+    ═══════════════════════════ */
+    .film-strip{
+      position:fixed;top:28px;left:0;right:0;
+      height:38px;
+      background:rgba(4,8,15,0.92);
+      border-bottom:1px solid rgba(201,168,76,0.2);
+      z-index:19;overflow:hidden;
+      display:flex;align-items:center;
+    }
+    /* Film holes */
+    .film-strip::before,.film-strip::after{
+      content:'○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○';
+      position:absolute;font-size:6px;letter-spacing:8px;
+      color:rgba(201,168,76,0.25);white-space:nowrap;
+    }
+    .film-strip::before{top:2px;}
+    .film-strip::after{bottom:2px;}
+    .film-frames{
+      display:inline-flex;gap:4px;padding:4px 4px;
+      animation:filmScroll 20s linear infinite;
+      white-space:nowrap;
+    }
+    @keyframes filmScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    .frame{
+      width:28px;height:28px;flex-shrink:0;
+      border:1px solid rgba(201,168,76,0.2);
+      background:rgba(10,22,40,0.8);
+      display:flex;align-items:center;justify-content:center;
+      font-size:14px;position:relative;overflow:hidden;
+    }
+    .frame::after{
+      content:'';position:absolute;inset:0;
+      background:rgba(0,0,0,0.3);
+    }
+
+    /* ═══════════════════════════
+       GOLD SCIENCE TICKER (BOTTOM OF FILM)
+    ═══════════════════════════ */
+    .ticker-gold{
+      position:fixed;top:66px;left:0;right:0;
+      background:rgba(10,22,40,0.95);
+      border-bottom:1px solid rgba(201,168,76,0.15);
+      padding:4px 0;
+      font-family:'Space Mono',monospace;font-size:0.52rem;
+      letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);
+      z-index:18;overflow:hidden;opacity:0.7;
+    }
+    .tg-in{display:inline-flex;animation:tk 45s linear infinite reverse;white-space:nowrap;gap:5rem;}
+    .tg-in span{display:inline-block;}
+    .tgd{color:rgba(201,168,76,0.4);margin:0 0.4rem;}
+
+    /* ═══════════════════════════
+       MAIN CONTENT
+    ═══════════════════════════ */
+    .main{
+      position:relative;z-index:8;
+      display:flex;flex-direction:column;align-items:center;
+      text-align:center;
+      padding:88px 80px 32px;
+      min-height:100vh;justify-content:center;
+    }
+
+    /* Classified header */
+    .chdr{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;animation:fu 1s ease 0.3s both;}
+    .cl{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.38));}
+    .cl.r{background:linear-gradient(to left,transparent,rgba(201,168,76,0.38));}
+    .cbg{font-family:'Orbitron',monospace;font-size:0.48rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,0.28);padding:0.32rem 0.9rem;opacity:0.8;animation:bl 4s ease-in-out infinite;}
+    @keyframes bl{0%,88%,100%{opacity:0.8;}93%{opacity:0.18;}}
+
+    /* Mission status readout */
+    .readout{
+      display:flex;gap:1.5rem;justify-content:center;margin-bottom:1rem;
+      animation:fu 1s ease 0.5s both;
+    }
+    .rd{
+      font-family:'Orbitron',monospace;font-size:0.44rem;
+      letter-spacing:0.2em;text-transform:uppercase;
+      display:flex;align-items:center;gap:0.4rem;
+    }
+    .rd-dot{width:5px;height:5px;border-radius:50%;}
+    .rd-g{background:var(--gold);box-shadow:0 0 5px var(--gold);animation:dp 2s ease-in-out infinite;}
+    .rd-r{background:var(--crimson);animation:dp 2s ease-in-out infinite 0.5s;}
+    .rd-gr{background:var(--green);box-shadow:0 0 5px var(--green);animation:dp 2s ease-in-out infinite 1s;}
+    @keyframes dp{0%,100%{opacity:1;}50%{opacity:0.2;}}
+    .rd span{color:var(--cream);opacity:0.4;}
+
+    /* Title */
+    .title{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2.2rem,5.5vw,5rem);
+      font-weight:900;line-height:0.9;margin-bottom:0.8rem;
+      animation:fu 1s ease 0.7s both;
+    }
+    .t1{color:var(--white);display:block;}
+    .t2{color:var(--gold);font-style:italic;display:block;}
+    .t3{color:var(--crimson);display:block;font-size:0.4em;letter-spacing:0.1em;}
+
+    /* War declaration */
+    .war{
+      font-family:'Orbitron',monospace;
+      font-size:clamp(0.45rem,1.1vw,0.6rem);letter-spacing:0.22em;
+      text-transform:uppercase;color:var(--crimson);
+      border:1px solid rgba(192,57,43,0.32);
+      padding:0.5rem 1.4rem;display:inline-block;margin-bottom:1rem;
+      animation:fu 1s ease 0.85s both;position:relative;overflow:hidden;
+    }
+    .war::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(192,57,43,0.12),transparent);animation:ws 3s ease-in-out infinite;}
+    @keyframes ws{0%{left:-100%;}100%{left:200%;}}
+
+    /* Brief */
+    .brief{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(0.78rem,1.6vw,0.92rem);font-style:italic;
+      line-height:1.72;color:var(--cream);opacity:0.7;
+      max-width:500px;margin-bottom:1.2rem;
+      animation:fu 1s ease 1s both;
+    }
+    .brief strong{color:var(--gold-g);font-style:normal;}
+
+    /* Countdown */
+    .cdw{margin-bottom:1.2rem;animation:fu 1s ease 1.1s both;}
+    .cdl{font-family:'Orbitron',monospace;font-size:0.45rem;letter-spacing:0.38em;text-transform:uppercase;color:var(--gold);opacity:0.5;margin-bottom:0.55rem;}
+    .cd{display:flex;gap:0.7rem;justify-content:center;align-items:flex-end;}
+    .cdu{display:flex;flex-direction:column;align-items:center;gap:0.18rem;}
+    .cdn{font-family:'Orbitron',monospace;font-size:clamp(1.5rem,3.5vw,2.5rem);font-weight:900;color:var(--white);line-height:1;text-shadow:0 0 16px rgba(201,168,76,0.35);min-width:3ch;text-align:center;}
+    .cdlab{font-family:'Orbitron',monospace;font-size:0.38rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);opacity:0.42;}
+    .cdsep{font-family:'Orbitron',monospace;font-size:clamp(0.9rem,2.2vw,1.6rem);color:var(--gold);opacity:0.32;padding-bottom:0.28rem;}
+
+    /* Divider */
+    .rule{display:flex;align-items:center;gap:1.1rem;width:100%;max-width:440px;margin-bottom:1.1rem;animation:fu 1s ease 1.2s both;}
+    .rl{flex:1;height:1px;background:rgba(201,168,76,0.18);}
+    .rs{color:var(--gold);font-size:0.48rem;opacity:0.4;}
+
+    /* Email */
+    .suw{width:100%;max-width:460px;animation:fu 1s ease 1.3s both;margin-bottom:1rem;}
+    .sul{font-family:'Orbitron',monospace;font-size:0.45rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:0.55rem;}
+    .suf{display:flex;gap:0;border:1px solid rgba(201,168,76,0.28);}
+    .sui{flex:1;padding:0.82rem 1.1rem;background:rgba(10,22,40,0.88);border:none;outline:none;font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--cream);}
+    .sui::placeholder{color:rgba(245,240,232,0.2);}
+    .sub{font-family:'Orbitron',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:700;padding:0.82rem 1.2rem;background:var(--gold);color:var(--ink);border:none;cursor:pointer;transition:background 0.2s;white-space:nowrap;}
+    .sub:hover{background:var(--gold-g);}
+    .sun{font-size:0.44rem;letter-spacing:0.1em;color:var(--cream);opacity:0.25;margin-top:0.38rem;text-align:center;}
+
+    /* Scene caption — replaces cluttered bottom */
+    .cap-strip{
+      position:fixed;bottom:26px;left:50%;transform:translateX(-50%);
+      z-index:8;text-align:center;pointer-events:none;
+      width:60%;max-width:600px;
+    }
+    .cap{position:absolute;bottom:0;left:0;right:0;opacity:0;animation:capCycle 56s ease-in-out infinite;}
+    .cap-1{animation-delay:0s;}
+    .cap-2{animation-delay:8s;}
+    .cap-3{animation-delay:16s;}
+    .cap-4{animation-delay:24s;}
+    .cap-5{animation-delay:32s;}
+    .cap-6{animation-delay:40s;}
+    .cap-7{animation-delay:48s;}
+    @keyframes capCycle{0%{opacity:0;}5%{opacity:1;}12%{opacity:1;}16%{opacity:0;}100%{opacity:0;}}
+    .cap-yr{font-family:'Orbitron',monospace;font-size:0.52rem;letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);margin-bottom:0.2rem;}
+    .cap-tx{font-family:'Playfair Display',serif;font-size:clamp(0.75rem,1.8vw,0.9rem);font-style:italic;color:var(--cream);opacity:0.7;line-height:1.4;}
+
+    /* Bottom bar */
+    .bot{position:fixed;bottom:0;left:0;right:0;background:rgba(10,22,40,0.95);border-top:1px solid rgba(201,168,76,0.12);padding:0.4rem 2rem;display:flex;justify-content:space-between;align-items:center;z-index:20;}
+    .bt{font-family:'Orbitron',monospace;font-size:0.4rem;letter-spacing:0.2em;color:var(--gold);opacity:0.38;text-transform:uppercase;}
+    .bc{font-family:'Orbitron',monospace;font-size:0.4rem;letter-spacing:0.2em;color:var(--crimson);opacity:0.48;text-transform:uppercase;animation:bl 3s ease-in-out infinite;}
+
+    @keyframes fu{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+    @media(max-width:600px){
+      .main{padding:88px 16px 28px;}
+      .cd{gap:0.4rem;}
+      .suf{flex-direction:column;}
+      .sub{width:100%;text-align:center;}
+      .cap-strip{width:90%;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND SCENES -->
+  <div class="bg">
+    <div class="scene s1"><div class="sb"></div></div>
+    <div class="scene s2">
+      <div class="sb"></div>
+      <div class="wh">
+        <div style="display:flex;justify-content:center;">
+          <div class="wh-wl"></div>
+          <div class="wh-b">
+            <div class="wh-cols"><div class="wh-col"></div><div class="wh-col"></div><div class="wh-col"></div><div class="wh-col"></div><div class="wh-col"></div></div>
+          </div>
+          <div class="wh-wr"></div>
+        </div>
+        <div class="wh-d"></div>
+      </div>
+    </div>
+    <div class="scene s3">
+      <div class="sbR"></div>
+      <div class="mch">
+        <div class="pp"><div class="ph"></div><div class="pb"></div></div>
+        <div class="pp"><div class="ph"></div><div class="pb"></div></div>
+        <div class="pp"><div class="ph"></div><div class="pb"></div></div>
+        <div class="pp"><div class="ph"></div><div class="pb"></div></div>
+        <div class="pp"><div class="ph"></div><div class="pb"></div></div>
+        <div class="pp"><div class="ph"></div><div class="pb"></div></div>
+        <div class="pp"><div class="ph"></div><div class="pb"></div></div>
+      </div>
+    </div>
+    <div class="scene s4">
+      <div class="sb"></div>
+      <div class="kds">
+        <div class="kd"><div class="kh" style="width:9px;height:9px"></div><div class="kb" style="width:7px;height:16px"></div></div>
+        <div class="kd"><div class="kh" style="width:11px;height:11px"></div><div class="kb" style="width:8px;height:20px"></div></div>
+        <div class="kd"><div class="kh" style="width:10px;height:10px"></div><div class="kb" style="width:7px;height:18px"></div></div>
+        <div class="kd"><div class="kh" style="width:12px;height:12px"></div><div class="kb" style="width:9px;height:22px"></div></div>
+        <div class="kd"><div class="kh" style="width:9px;height:9px"></div><div class="kb" style="width:7px;height:15px"></div></div>
+        <div class="kd"><div class="kh" style="width:11px;height:11px"></div><div class="kb" style="width:8px;height:19px"></div></div>
+      </div>
+    </div>
+    <div class="scene s5">
+      <div class="sbR"></div>
+      <div class="sky">
+        <div class="bld" style="width:15px;height:70px"></div>
+        <div class="bld" style="width:20px;height:100px"></div>
+        <div class="bld" style="width:17px;height:58px"></div>
+        <div class="bld" style="width:30px;height:125px"></div>
+        <div class="bld" style="width:18px;height:80px"></div>
+        <div class="bld" style="width:14px;height:62px"></div>
+        <div class="bld" style="width:24px;height:110px"></div>
+        <div class="bld" style="width:17px;height:75px"></div>
+        <div class="bld" style="width:13px;height:48px"></div>
+        <div class="bld" style="width:26px;height:115px"></div>
+        <div class="bld" style="width:19px;height:68px"></div>
+        <div class="bld" style="width:15px;height:85px"></div>
+        <div class="bld" style="width:21px;height:95px"></div>
+        <div class="bld" style="width:28px;height:132px"></div>
+        <div class="bld" style="width:15px;height:72px"></div>
+      </div>
+    </div>
+    <div class="scene s6">
+      <div class="sb"></div>
+      <div class="fts">
+        <span class="ft">✊🏾</span><span class="ft">✊🏽</span>
+        <span class="ft">✊🏿</span><span class="ft">✊🏾</span>
+      </div>
+    </div>
+    <div class="scene s7"><div class="sb"></div></div>
+  </div>
+
+  <!-- Overlays -->
+  <div class="ov-dark"></div>
+  <div class="ov-grain"></div>
+  <div class="ov-scan"></div>
+  <div class="ov-vig"></div>
+
+  <!-- Corner brackets -->
+  <div class="cor c-tl"></div><div class="cor c-tr"></div>
+  <div class="cor c-bl"></div><div class="cor c-br"></div>
+
+  <!-- Lab measurement marks LEFT -->
+  <div class="lab-marks lab-left">
+    <div class="lm-inner">
+      <div class="lm-tick long"></div><div class="lm-num">100</div>
+      <div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div>
+      <div class="lm-tick long"></div><div class="lm-num">75</div>
+      <div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div>
+      <div class="lm-tick long"></div><div class="lm-num">50</div>
+      <div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div>
+      <div class="lm-tick long"></div><div class="lm-num">25</div>
+      <div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div>
+      <div class="lm-tick long"></div><div class="lm-num">0</div>
+    </div>
+  </div>
+  <!-- Lab measurement marks RIGHT -->
+  <div class="lab-marks lab-right">
+    <div class="lm-inner">
+      <div class="lm-tick long"></div>
+      <div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div>
+      <div class="lm-tick long"></div>
+      <div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div>
+      <div class="lm-tick long"></div>
+      <div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div>
+      <div class="lm-tick long"></div>
+      <div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div><div class="lm-tick"></div>
+      <div class="lm-tick long"></div>
+    </div>
+  </div>
+
+  <!-- RED BROADCAST TICKER -->
+  <div class="ticker-red">
+    <div class="tr-in">
+      <span>EEA USA — Transmission Incoming</span><span class="tbd">★</span>
+      <span>Declaring War on Educational Inequity</span><span class="tbd">★</span>
+      <span>Edwards Education Academy of America</span><span class="tbd">★</span>
+      <span>Stand By For Deployment</span><span class="tbd">★</span>
+      <span>Mission Briefing Begins Soon</span><span class="tbd">★</span>
+      <span>EEA USA — Transmission Incoming</span><span class="tbd">★</span>
+      <span>Declaring War on Educational Inequity</span><span class="tbd">★</span>
+      <span>Edwards Education Academy of America</span><span class="tbd">★</span>
+      <span>Stand By For Deployment</span><span class="tbd">★</span>
+      <span>Mission Briefing Begins Soon</span><span class="tbd">★</span>
+    </div>
+  </div>
+
+  <!-- FILM STRIP -->
+  <div class="film-strip">
+    <div class="film-frames">
+      <div class="frame">🇺🇸</div><div class="frame">🏛️</div><div class="frame">✊🏾</div>
+      <div class="frame">📚</div><div class="frame">🏙️</div><div class="frame">✊🏿</div>
+      <div class="frame">⭐</div><div class="frame">🔬</div><div class="frame">💡</div>
+      <div class="frame">🚢</div><div class="frame">📖</div><div class="frame">🌱</div>
+      <div class="frame">💰</div><div class="frame">🎓</div><div class="frame">⚓</div>
+      <div class="frame">🏆</div><div class="frame">✨</div><div class="frame">🙏🏾</div>
+      <!-- duplicate for loop -->
+      <div class="frame">🇺🇸</div><div class="frame">🏛️</div><div class="frame">✊🏾</div>
+      <div class="frame">📚</div><div class="frame">🏙️</div><div class="frame">✊🏿</div>
+      <div class="frame">⭐</div><div class="frame">🔬</div><div class="frame">💡</div>
+      <div class="frame">🚢</div><div class="frame">📖</div><div class="frame">🌱</div>
+      <div class="frame">💰</div><div class="frame">🎓</div><div class="frame">⚓</div>
+      <div class="frame">🏆</div><div class="frame">✨</div><div class="frame">🙏🏾</div>
+    </div>
+  </div>
+
+  <!-- GOLD SCIENCE TICKER -->
+  <div class="ticker-gold">
+    <div class="tg-in">
+      <span>We see the problem</span><span class="tgd">◆</span>
+      <span>We hear the solution</span><span class="tgd">◆</span>
+      <span>We taste the truth</span><span class="tgd">◆</span>
+      <span>We touch the heart of our investors</span><span class="tgd">◆</span>
+      <span>We smell the victory</span><span class="tgd">◆</span>
+      <span>Philippians 1:6 — He who began a good work in you will carry it to completion</span><span class="tgd">◆</span>
+      <span>Literacy · Stability · System Design</span><span class="tgd">◆</span>
+      <span>Hood Science · Hood Economics · Reading the American Dream</span><span class="tgd">◆</span>
+      <span>We see the problem</span><span class="tgd">◆</span>
+      <span>We hear the solution</span><span class="tgd">◆</span>
+      <span>We taste the truth</span><span class="tgd">◆</span>
+      <span>We touch the heart of our investors</span><span class="tgd">◆</span>
+      <span>We smell the victory</span><span class="tgd">◆</span>
+      <span>Philippians 1:6 — He who began a good work in you will carry it to completion</span><span class="tgd">◆</span>
+      <span>Literacy · Stability · System Design</span><span class="tgd">◆</span>
+      <span>Hood Science · Hood Economics · Reading the American Dream</span><span class="tgd">◆</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <div class="chdr">
+      <div class="cl"></div>
+      <div class="cbg">⬡ Incoming Transmission ⬡</div>
+      <div class="cl r"></div>
+    </div>
+
+    <!-- Mission readout instead of seal -->
+    <div class="readout">
+      <div class="rd"><div class="rd-dot rd-g"></div><span>Research — Active</span></div>
+      <div class="rd"><div class="rd-dot rd-gr"></div><span>Hood Science — Deployed</span></div>
+      <div class="rd"><div class="rd-dot rd-r"></div><span>Dream Lab — Incoming</span></div>
+      <div class="rd"><div class="rd-dot rd-g"></div><span>EEA USA — Launching Soon</span></div>
+    </div>
+
+    <div style="font-family:'Orbitron',monospace;font-size:0.52rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);opacity:0.65;margin-bottom:0.9rem;animation:fu 1s ease 0.6s both;">▶ &nbsp; Mission Status: Active</div>
+
+    <h1 class="title">
+      <span class="t1">Edwards</span>
+      <span class="t2">Education</span>
+      <span class="t3">Academy of America</span>
+    </h1>
+
+    <div class="war">⬡ &nbsp; Declaring War on Educational Inequity &nbsp; ⬡</div>
+
+    <p class="brief">
+      From 1964 to 2026 — America promised its children an equal shot at the dream.
+      <strong>EEA USA is here to make sure it keeps that promise.</strong>
+    </p>
+
+    <div class="cdw">
+      <div class="cdl">⬡ &nbsp; Mission Launch Countdown &nbsp; ⬡</div>
+      <div class="cd">
+        <div class="cdu"><div class="cdn" id="d">00</div><div class="cdlab">Days</div></div>
+        <div class="cdsep">:</div>
+        <div class="cdu"><div class="cdn" id="h">00</div><div class="cdlab">Hours</div></div>
+        <div class="cdsep">:</div>
+        <div class="cdu"><div class="cdn" id="m">00</div><div class="cdlab">Mins</div></div>
+        <div class="cdsep">:</div>
+        <div class="cdu"><div class="cdn" id="s">00</div><div class="cdlab">Secs</div></div>
+      </div>
+    </div>
+
+    <div class="rule"><div class="rl"></div><div class="rs">★ ★ ★</div><div class="rl"></div></div>
+
+    <div class="suw">
+      <div class="sul">⬡ &nbsp; Request Access · Enlist Now &nbsp; ⬡</div>
+      <div class="suf">
+        <input type="email" class="sui" placeholder="Enter your email address..."/>
+        <button class="sub">Enlist Now</button>
+      </div>
+      <div class="sun">Your information is secure. No spam. Just the mission.</div>
+    </div>
+
+  </div>
+
+  <!-- SCENE CAPTIONS — bottom center clean -->
+  <div class="cap-strip">
+    <div class="cap cap-1"><div class="cap-yr">1964 — The Declaration</div><div class="cap-tx">"We shall overcome." America declared war on poverty.</div></div>
+    <div class="cap cap-2"><div class="cap-yr">The White House</div><div class="cap-tx">Power belongs to those who show up. EEA USA is showing up.</div></div>
+    <div class="cap cap-3"><div class="cap-yr">The Movement</div><div class="cap-tx">They marched so our children could learn. We are completing what they started.</div></div>
+    <div class="cap cap-4"><div class="cap-yr">1965 — Head Start</div><div class="cap-tx">They knew early intervention was everything. EEA USA starts before the first day of school.</div></div>
+    <div class="cap cap-5"><div class="cap-yr">The Hood</div><div class="cap-tx">This is where Hood Science was born. In the neighborhood. For the neighborhood.</div></div>
+    <div class="cap cap-6"><div class="cap-yr">The Struggle Continues</div><div class="cap-tx">Literacy is a civil rights issue. We are treating it like one.</div></div>
+    <div class="cap cap-7" style="bottom:0;">
+      <div class="cap-yr" style="font-size:0.72rem;color:var(--gold);opacity:1;">2026 — Now</div>
+      <div class="cap-tx" style="color:var(--white);opacity:0.92;font-size:clamp(0.85rem,2.2vw,1.1rem);">EEA USA declares war on educational inequity.<br/><span style="color:var(--gold);">The mission begins now.</span></div>
+    </div>
+  </div>
+
+  <div class="bot">
+    <div class="bt">eeausa.com</div>
+    <div class="bc">⬡ &nbsp; Transmission Active &nbsp; ⬡</div>
+    <div class="bt">© 2026 EEA USA</div>
+  </div>
+
+  <script>
+    const L=new Date('2026-05-15T00:00:00').getTime();
+    function tick(){
+      const x=L-Date.now(); if(x<0)return;
+      document.getElementById('d').textContent=String(Math.floor(x/86400000)).padStart(2,'0');
+      document.getElementById('h').textContent=String(Math.floor((x%86400000)/3600000)).padStart(2,'0');
+      document.getElementById('m').textContent=String(Math.floor((x%3600000)/60000)).padStart(2,'0');
+      document.getElementById('s').textContent=String(Math.floor((x%60000)/1000)).padStart(2,'0');
+    }
+    tick(); setInterval(tick,1000);
+  </script>
+</body>
+</html>
